@@ -7,20 +7,20 @@ import numpy_financial as npf
 from plotly.subplots import make_subplots
 # from sender import Attachment, Mail, Message
 # from PIL import Image
-# import firebase_admin
-# from firebase_admin import credentials
-# from firebase_admin import db
-# from firebase_admin import firestore
-# import requests
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+from firebase_admin import firestore
+import requests
 
 
-#
-# cred = credentials.Certificate('/Users/josephrambow/PycharmProjects/aim_builder/firebase_config.json')
-# firebase_admin.initialize_app(cred, {
-#     'databaseURL': 'https://rn-testing-ae88d-default-rtdb.firebaseio.com/'
-# })
-# ref = db.reference('prospect')
-#
+
+cred = credentials.Certificate('/Users/josephrambow/PycharmProjects/aim_builder/firebase_config.json')
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://rn-testing-ae88d-default-rtdb.firebaseio.com/'
+})
+ref = db.reference('prospect')
+
 
 # st.set_page_config(
 #     page_title="Mortgage Calculator")
@@ -41,7 +41,7 @@ from plotly.subplots import make_subplots
 #
 # with st.container():
 #     st.image(image)
-
+import save_to_firestore
 
 st.title("Mortgage Calculator")
 
@@ -254,21 +254,22 @@ email_content = f'{email} + {phone}'
 
 if st.button('Submit'):
     # st.dataframe(df)
+    # save_to_firestore.save_data(email, fname, lname, phone)
     st.plotly_chart(fig, use_container_width=True)
 
     # send_mail(email_address, subject, email_content)
     #firebase
-    ref.push({
-        'contactinfo': {
-            'email': f'{email}',
-            'etype': 'home',
-            'firstname': f'{fname}',
-            'lastname': f'{lname}',
-            'phonenumber': f'{phone}',
-            'ptype': 'mobile'
-        }
-    })
-    #firestore
+    # ref.push({
+    #     'contactinfo': {
+    #         'email': f'{email}',
+    #         'etype': 'home',
+    #         'firstname': f'{fname}',
+    #         'lastname': f'{lname}',
+    #         'phonenumber': f'{phone}',
+    #         'ptype': 'mobile'
+    #     }
+    # })
+    # #firestore
     doc_ref = fire.collection('prospect').document('contactinfo')
     doc_ref.set({
         'email': f'{email}',
